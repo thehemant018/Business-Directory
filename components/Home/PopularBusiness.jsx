@@ -1,23 +1,24 @@
 import { View, Text, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Colors } from '../../constants/Colors'
-import { collection, getDocs, query } from 'firebase/firestore'
+import { collection, getDocs, limit, query } from 'firebase/firestore'
 import { db } from '../../configs/FireBaseConfig'
-import CategoryItem from './CategoryItem'
+import PopularBusinessCard from './PopularBusinessCard'
 
-export default function Category() {
-    const [categoryList, setCategoryList] = useState([]);
+export default function PopularBusiness() {
+    const [businessList, setBusinessList] = useState([]);
     useEffect(() => {
-        GetCategory();
-    }, []);
-    const GetCategory = async () => {
-        setCategoryList([]);
-        const q = query(collection(db, 'Category'));
-        const querySnapshot = await getDocs(q);
-
-        querySnapshot.forEach((doc) => {
+        GetBusinessList();
+      },[])
+    
+      const GetBusinessList=async ()=>{
+        setBusinessList([]);
+          const q=query(collection(db,'BusinessList'),limit(10));
+          const querySnapshot=await getDocs(q);
+            
+        querySnapshot.forEach((doc)=>{
             // console.log(doc.data());
-            setCategoryList(prev => [...prev, doc.data()]);
+            setBusinessList((prev)=>[...prev,doc.data()]);
         })
     }
     return (
@@ -32,18 +33,20 @@ export default function Category() {
                 <Text style={{
                     fontSize: 20,
                     fontFamily: 'outfit-bold',
-                }}>Category
+                }}>Popular Business
                 </Text>
                 <Text style={{ color: Colors.PRIMARY, fontFamily: 'outfit-medium' }}>View All</Text>
             </View>
+
+
             <FlatList
-                data={categoryList}
+                data={businessList}
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                renderItem={({ item, index }) => (
-                    <CategoryItem category={item} key={index} onCategoryPress={(category)=>console.log(category)} />
+                renderItem={({item,index})=>(
+                    <PopularBusinessCard business={item} key={index}/>
                 )}
-            />
+                 />
         </View>
     )
 }
