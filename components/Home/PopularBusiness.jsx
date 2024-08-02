@@ -24,11 +24,12 @@ export default function PopularBusiness() {
     return (
         <View>
             <View style={{
-                padding: 20,
+                paddingLeft: 20,
+                marginBottom:10,
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent: 'space-between',
-                marginTop: 10
+                marginTop: 20
             }}>
                 <Text style={{
                     fontSize: 20,
