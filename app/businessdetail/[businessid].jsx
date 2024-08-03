@@ -8,6 +8,8 @@ import { Colors } from '../../constants/Colors';
 import Intro from '../../components/BusinessDetail/Intro';
 import ActionButton from '../../components/BusinessDetail/ActionButton';
 import About from '../../components/BusinessDetail/About';
+import Reviews from '../../components/BusinessDetail/Reviews';
+
 
 export default function BusinessDetail() {
     const {businessid}=useLocalSearchParams();  //businessid== must same as file name
@@ -31,13 +33,13 @@ export default function BusinessDetail() {
         const docSnap=await getDoc(docRef);
         if(docSnap.exists()){
             // console.log("Document Data:",docSnap.data());
-            setBusiness(docSnap.data());
+            setBusiness({id:docSnap.id,...docSnap.data()});
             setLoading(false)
         }
         else{
             console.log("No such document!");
         }
-        console.log('bjbajkasbjsajk',docSnap.data());
+        // console.log('bjbajkasbjsajk',docSnap.data());
     }
   return (
     <ScrollView>
@@ -56,6 +58,11 @@ export default function BusinessDetail() {
 
             {/* About Section */}
             <About  business={business} />
+
+            {/* Reviews */}
+            <Reviews  business={business}  />
+    
+
         </View>
         }
       
